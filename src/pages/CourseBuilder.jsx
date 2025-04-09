@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import ChatInput from "../components/ChatInput";
 import LessonDisplay from "../components/LessonDisplay";
 import Sidebar from "../components/Sidebar";
+import { FaBars } from "react-icons/fa";
 
 const CourseBuilder = () => {
   const [chats, setChats] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("courseChats")) || [];
@@ -14,30 +16,31 @@ const CourseBuilder = () => {
   }, []);
 
   const handleLessonGenerated = (newChat) => {
-    const updated = [newChat, ...chats];
-    setChats(updated);
+    setChats((prev) => [newChat, ...prev]);
     setSelectedChat(newChat);
-    localStorage.setItem("courseChats", JSON.stringify(updated));
-  };
-
-  const handleDelete = (id) => {
-    const updated = chats.filter(chat => chat.id !== id);
-    setChats(updated);
-    localStorage.setItem("courseChats", JSON.stringify(updated));
-
-    if (selectedChat && selectedChat.id === id) {
-      setSelectedChat(null);
-    }
   };
 
   return (
-    <div className="flex h-screen bg-gray-100 font-sans">
-      <Sidebar chats={chats} onSelect={setSelectedChat} onDelete={handleDelete} />
-      <div className="flex-grow flex flex-col overflow-hidden">
+    <div className="flex h-screen relative">
+      <Sidebar
+        chats={chats}
+        onSelect={setSelectedChat}
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+      />
+
+      {/* Mobile Hamburger */}
+      <button
+        className="absolute top-4 left-4 z-50 sm:hidden bg-white p-2 rounded shadow"
+        onClick={() => setSidebarOpen(true)}
+      >
+        <FaBars className="text-gray-800" />
+      </button>
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col overflow-y-auto">
         <ChatInput onLessonGenerated={handleLessonGenerated} />
-        <div className="overflow-y-auto px-6 pb-8">
-          <LessonDisplay content={selectedChat?.content} />
-        </div>
+        <LessonDisplay content={selectedChat?.content} />
       </div>
     </div>
   );
