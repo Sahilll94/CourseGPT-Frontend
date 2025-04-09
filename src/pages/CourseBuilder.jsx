@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ChatInput from "../components/ChatInput";
 import LessonDisplay from "../components/LessonDisplay";
 import Sidebar from "../components/Sidebar";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 const CourseBuilder = () => {
   const [chats, setChats] = useState([]);
@@ -22,6 +22,7 @@ const CourseBuilder = () => {
 
   return (
     <div className="flex h-screen relative">
+      {/* Sidebar */}
       <Sidebar
         chats={chats}
         onSelect={setSelectedChat}
@@ -29,17 +30,29 @@ const CourseBuilder = () => {
         onClose={() => setSidebarOpen(false)}
       />
 
-      {/* Mobile Hamburger */}
-      <button
-        className="absolute top-4 left-4 z-50 sm:hidden bg-white p-2 rounded shadow"
-        onClick={() => setSidebarOpen(true)}
-      >
-        <FaBars className="text-gray-800" />
-      </button>
-
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-y-auto">
-        <ChatInput onLessonGenerated={handleLessonGenerated} />
+        {/* Top Bar */}
+        <div className="flex items-center gap-3 p-4 border-b border-gray-200 bg-white shadow-sm sticky top-0 z-20">
+          {/* Sidebar Toggle (hamburger / close) */}
+          <button
+            className="sm:hidden p-2 bg-gray-100 rounded-md shadow"
+            onClick={() => setSidebarOpen((prev) => !prev)}
+          >
+            {sidebarOpen ? (
+              <FaTimes className="text-gray-700 text-lg" />
+            ) : (
+              <FaBars className="text-gray-700 text-lg" />
+            )}
+          </button>
+
+          {/* Input */}
+          <div className="flex-1">
+            <ChatInput onLessonGenerated={handleLessonGenerated} />
+          </div>
+        </div>
+
+        {/* Lesson */}
         <LessonDisplay content={selectedChat?.content} />
       </div>
     </div>
