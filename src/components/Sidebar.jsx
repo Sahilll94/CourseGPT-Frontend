@@ -17,7 +17,7 @@ const Sidebar = ({ chats, onSelect, isOpen, onClose }) => {
         className={`fixed sm:static top-0 left-0 h-full z-40 sm:z-auto bg-white sm:bg-gray-50 w-72 sm:w-80 min-w-[18rem] border-r border-gray-200 overflow-y-auto shadow-2xl sm:shadow-inner transition-transform transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } sm:translate-x-0 sm:flex-shrink-0`}
-        style={{ backgroundColor: "#171219" }} // ✅ double lock for full opacity
+        style={{ backgroundColor: "#172219" }} // ✅ double lock for full opacity
       >
         {/* Header */}
         <div className="sticky top-0 z-10 bg-white p-4 border-b border-gray-200">
