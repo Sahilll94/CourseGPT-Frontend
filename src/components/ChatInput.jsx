@@ -9,7 +9,7 @@ const ChatInput = ({ onLessonGenerated }) => {
     if (!topic.trim()) return;
     setLoading(true);
     try {
-      const res = await axios.post("http://localhost:5000/api/generate-lesson", {
+      const res = await axios.post("https://coursegpt-backend.onrender.com/api/generate-lesson", {
         topic,
       });
 
